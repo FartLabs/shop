@@ -17,7 +17,10 @@ export function Header() {
             class="h-14 w-14 rounded-full"
           />
         </a>
-        <h1 class="text-4xl font-bold mb-3">
+        <h1
+          class="text-4xl font-bold"
+          style={{ fontFamily: "Overpass, sans-serif" }}
+        >
           FartLabs Shop
         </h1>
         <Cart />
