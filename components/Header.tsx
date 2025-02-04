@@ -12,19 +12,13 @@ export function Header() {
       <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
         <a href="/">
           <img
-            src="/logo.svg"
-            alt="Deno Logo"
-            class="h-14 w-14"
+            src="http://fartlabs.org/fl-logo.png"
+            alt="FartLabs logo"
+            class="h-14 w-14 rounded-full"
           />
         </a>
-        <h1>
-          <img
-            src="/text_logo.svg"
-            alt="Deno Merch"
-            class="h-6"
-            width="130"
-            height="24"
-          />
+        <h1 class="text-4xl font-bold mb-3">
+          FartLabs Shop
         </h1>
         <Cart />
       </nav>

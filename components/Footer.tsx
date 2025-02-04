@@ -18,16 +18,13 @@ export function Footer() {
         </a>
         <a
           class="hover:underline flex gap-2 items-center"
-          href="https://github.com/denoland/merch"
+          href="https://github.com/FartLabs/shop"
         >
           <GitHub class="h-5 w-5 text-gray-500" />
           Source
         </a>
       </span>
-      <a
-        class="text-sm text-gray-400 hidden items-center gap-2 sm:!flex"
-        href="https://deno-merch.myshopify.com"
-      >
+      <span class="text-sm text-gray-400 hidden items-center gap-2 sm:!flex">
         Powered by
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +54,7 @@ export function Footer() {
         <span class="text-gray-600">
           Shopify
         </span>
-      </a>
+      </span>
     </footer>
   );
 }

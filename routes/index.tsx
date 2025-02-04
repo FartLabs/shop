@@ -50,9 +50,9 @@ export default function Home(ctx: PageProps<Data>) {
   return (
     <div>
       <HeadElement
-        description="Shop for Deno Merch"
+        description="Shop at the FartLabs Shop"
         image={url.href + "og-image.png"}
-        title="Deno Merch"
+        title="FartLabs Shop"
         url={url}
       />
       <Header />
