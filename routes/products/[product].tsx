@@ -74,9 +74,7 @@ export default function ProductPage(ctx: PageProps<Query>) {
       />
 
       <Header />
-      <div
-        class="w-11/12 mt-16 max-w-5xl mx-auto flex items-center justify-between relative"
-      >
+      <div class="w-11/12 mt-16 max-w-5xl mx-auto flex items-center justify-between relative">
         <a
           href="/"
           class="flex items-center gap-2 text-gray-400 hover:text-gray-800 transition-colors duration-200"

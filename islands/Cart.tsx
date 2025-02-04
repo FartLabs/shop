@@ -1,6 +1,6 @@
 import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import { apply, tw } from "twind";
+import { tw } from "twind";
 import { animation, css } from "twind/css";
 import IconCart from "@/components/IconCart.tsx";
 import {
@@ -12,7 +12,7 @@ import {
 
 // Lazy load a <dialog> polyfill.
 // @ts-expect-error HTMLDialogElement is not just a type!
-if (IS_BROWSER && window.HTMLDialogElement === "undefined") {
+if (IS_BROWSER && globalThis.HTMLDialogElement === "undefined") {
   await import(
     "https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.esm.js"
   );

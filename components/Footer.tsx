@@ -2,9 +2,7 @@ import GitHub from "./IconGithub.tsx";
 
 export function Footer() {
   return (
-    <footer
-      class="w-11/12 max-w-5xl mx-auto mt-24 sm:!mt-28 mb-8 flex items-center justify-between"
-    >
+    <footer class="w-11/12 max-w-5xl mx-auto mt-24 sm:!mt-28 mb-8 flex items-center justify-between">
       <span class="flex items-center gap-4">
         <a
           class="flex items-center gap-2 text-gray-700"
