@@ -18,7 +18,7 @@ export function Header() {
           />
         </a>
         <h1
-          class="text-4xl font-bold"
+          class="text-4xl font-bold sm:text-5xl md:text-6xl"
           style={{ fontFamily: "Overpass, sans-serif" }}
         >
           FartLabs Shop
