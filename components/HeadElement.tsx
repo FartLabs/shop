@@ -11,7 +11,7 @@ export function HeadElement({ description, image, title, url }: HeadProps) {
   return (
     <Head>
       <title>{title}</title>
-      <link rel="icon" href="/favicon.ico" sizes="32x32" />
+      <link rel="icon" href="https://fartlabs.org/fl-logo.png" />
       <meta name="description" content={description} />
 
       {/* Facebook Meta Tags */}
