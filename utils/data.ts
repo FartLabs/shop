@@ -98,6 +98,63 @@ async function cartFetcher(): Promise<CartData> {
 }
 
 export function useCart() {
+  // TODO: Fix.
+
+  //   C:\Users\ethan\Documents\GitHub\shop>deno task start
+  // Task start deno run -A --watch=static/,routes/ dev.ts
+  // Watcher Process started.
+  // The manifest has been generated for 5 routes and 3 islands.
+
+  //  🍋 Fresh ready
+  //     Local: http://localhost:8000/
+
+  // Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+  // 1. You might have mismatching versions of React and the renderer (such as React DOM)
+  // 2. You might be breaking the Rules of Hooks
+  // 3. You might have more than one copy of React in the same app
+  // See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem.
+  // An error occurred during route handling or page rendering.
+
+  //   1462 |           "Calling useContext(Context.Consumer) is not supported and will cause bugs. Did you mean to call useContext(Context) instead?"
+  //   1463 |         );
+  // > 1464 |       return dispatcher.useContext(Context);
+  //        |                         ^
+  //   1465 |     };
+  //   1466 |     exports.useDebugValue = function (value, formatterFn) {
+  //   1467 |       return resolveDispatcher().useDebugValue(value, formatterFn);
+
+  // TypeError: Cannot read properties of null (reading 'useContext')
+  //     at process.env.NODE_ENV.exports.useContext (file:///C:/Users/ethan/AppData/Local/deno/npm/registry.npmjs.org/react/19.0.0/cjs/react.development.js:1464:25)
+  //     at useSWRConfig (file:///C:/Users/ethan/AppData/Local/deno/npm/registry.npmjs.org/swr/2.3.2/dist/_internal/index.mjs:33:40)
+  //     at useSWRArgs (file:///C:/Users/ethan/AppData/Local/deno/npm/registry.npmjs.org/swr/2.3.2/dist/_internal/index.mjs:70:32)
+  //     at useCart (file:///C:/Users/ethan/Documents/GitHub/shop/utils/data.ts:101:10)
+  //     at Object.Cart (file:///C:/Users/ethan/Documents/GitHub/shop/islands/Cart.tsx:45:27)
+  //     at m (https://esm.sh/*preact-render-to-string@6.3.1/denonext/preact-render-to-string.mjs:2:3237)
+  //     at m (https://esm.sh/*preact-render-to-string@6.3.1/denonext/preact-render-to-string.mjs:2:2543)
+  //     at m (https://esm.sh/*preact-render-to-string@6.3.1/denonext/preact-render-to-string.mjs:2:3802)
+  //     at m (https://esm.sh/*preact-render-to-string@6.3.1/denonext/preact-render-to-string.mjs:2:2543)
+  //     at m (https://esm.sh/*preact-render-to-string@6.3.1/denonext/preact-render-to-string.mjs:2:5050)
+  // Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+  // 1. You might have mismatching versions of React and the renderer (such as React DOM)
+  // 2. You might be breaking the Rules of Hooks
+  // 3. You might have more than one copy of React in the same app
+  // See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem.
+  // An error occurred during route handling or page rendering.
+
+  //   1462 |           "Calling useContext(Context.Consumer) is not supported and will cause bugs. Did you mean to call useContext(Context) instead?"
+  //   1463 |         );
+  // > 1464 |       return dispatcher.useContext(Context);
+  //        |                         ^
+  //   1465 |     };
+  //   1466 |     exports.useDebugValue = function (value, formatterFn) {
+  //   1467 |       return resolveDispatcher().useDebugValue(value, formatterFn);
+
+  // TypeError: Cannot read properties of null (reading 'useContext')
+  //     at process.env.NODE_ENV.exports.useContext (file:///C:/Users/ethan/AppData/Local/deno/npm/registry.npmjs.org/react/19.0.0/cjs/react.development.js:1464:25)
+  //     at useSWRConfig (file:///C:/Users/ethan/AppData/Local/deno/npm/registry.npmjs.org/swr/2.3.2/dist/_internal/index.mjs:33:40)
+  //     at useSWRArgs (file:///C:/Users/ethan/AppData/Local/deno/npm/registry.npmjs.org/swr/2.3.2/dist/_internal/index.mjs:70:32)
+  //     at useCart (file:///C:/Users/ethan/Documents/GitHub/shop/utils/data.ts:101:10)
+  //     at Object.Cart (file:///C:/Users/ethan/Documents/GitHub/shop/islands/Cart.tsx:45:27)
   return useSWR<CartData, Error>("cart", cartFetcher, {});
 }
 

@@ -1,5 +1,5 @@
 import { useRef } from "preact/hooks";
-import { IS_BROWSER } from "$fresh/runtime.ts";
+import { IS_BROWSER } from "@fresh/core/runtime";
 import { tw } from "@twind/core";
 import { animation, css } from "@twind/core";
 import IconCart from "@/components/IconCart.tsx";
@@ -25,21 +25,15 @@ declare global {
   }
 }
 
-const slideRight = animation(
-  "0.4s ease normal",
-  `{
-  from { transform: translateX(100%); },
-  to { transform: translateX(0); },
-}`,
-);
+const slideRight = animation("0.4s ease normal", {
+  from: { transform: "translateX(100%)" },
+  to: { transform: "translateX(0)" },
+} as unknown as string);
 
-const slideBottom = animation(
-  "0.4s ease normal",
-  `{
-  from { transform: translateY(100%); },
-  to { transform: translateY(0); },
-}`,
-);
+const slideBottom = animation("0.4s ease normal", {
+  from: { transform: "translateY(100%)" },
+  to: { transform: "translateY(0)" },
+} as unknown as string);
 
 const backdrop = css({
   "&::backdrop": {
