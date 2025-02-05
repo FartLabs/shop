@@ -1,7 +1,7 @@
 import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import { tw } from "twind";
-import { animation, css } from "twind/css";
+import { tw } from "@twind/core";
+import { animation, css } from "@twind/core";
 import IconCart from "@/components/IconCart.tsx";
 import {
   CartData,
@@ -25,15 +25,21 @@ declare global {
   }
 }
 
-const slideRight = animation("0.4s ease normal", {
-  from: { transform: "translateX(100%)" },
-  to: { transform: "translateX(0)" },
-});
+const slideRight = animation(
+  "0.4s ease normal",
+  `{
+  from { transform: translateX(100%); },
+  to { transform: translateX(0); },
+}`,
+);
 
-const slideBottom = animation("0.4s ease normal", {
-  from: { transform: "translateY(100%)" },
-  to: { transform: "translateY(0)" },
-});
+const slideBottom = animation(
+  "0.4s ease normal",
+  `{
+  from { transform: translateY(100%); },
+  to { transform: translateY(0); },
+}`,
+);
 
 const backdrop = css({
   "&::backdrop": {
@@ -67,7 +73,9 @@ export default function Cart() {
       </button>
       <dialog
         ref={ref}
-        class={tw`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
+        class={tw(
+          `bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`,
+        )}
         onClick={onDialogClick}
       >
         <CartInner cart={data} />

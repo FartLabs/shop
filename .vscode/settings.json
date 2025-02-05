@@ -2,6 +2,19 @@
   "deno.enable": true,
   "deno.lint": true,
   "editor.formatOnSave": true,
+  "files.eol": "\n",
   "editor.defaultFormatter": "denoland.vscode-deno",
-  "files.eol": "\n"
+
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
 }

@@ -11,6 +11,8 @@ has a perfect Lighthouse score of 100.
 
 ## Develop locally
 
+- Make sure to install Deno:
+  https://deno.land/manual/getting_started/installation
 - Clone the repository
 - Set up Shopify credentials in the `.env`, follows `.env.example`.
 - Start the project in local mode:
@@ -18,6 +20,8 @@ has a perfect Lighthouse score of 100.
   ```bash
   deno task start
   ```
+
+This will watch the project directory and restart as necessary.
 
 ## Shopify setup
 
@@ -31,15 +35,6 @@ has a perfect Lighthouse score of 100.
     started.
   - Add more scopes if you require additional permissions.
 
-### Shopify troubleshooting
-
-- If you encounter an error like `error code 401` you likely didn't set this up
-  correctly. Revisit your scopes and be sure add at least one test product. Also
-  make sure you are using the `Storefront API` and not the `Admin API` as the
-  endpoints and scopes are different.
-- If you do not see a checkout sidebar, or if it is empty after adding a
-  product, you need to add an image to your test product.
-
 ## Deploy to global
 
 Sign in to [dash.deno.com](https://dash.deno.com), create a new project, and
@@ -48,16 +43,11 @@ secret before link:
 
 ![Screen Shot 2](./static/screen_shot_2.png)
 
-## Perfect Lighthouse score
-
-Today's consumers are more demanding than ever, especially when it comes to
-shopping online. These experiences must feel intuitive and snappy. Even a
-[100-millisecond delay in load time can hurt conversion rates by 7%](https://s3.amazonaws.com/sofist-marketing/State+of+Online+Retail+Performance+Spring+2017+-+Akamai+and+SOASTA+2017.pdf).
-
 Our shop is built with [Fresh](https://fresh.deno.dev) and
 [Shopify's storefront API](https://shopify.dev/api/storefront), is server-side
 rendered (SSR) with some
 [islands of interactivity](https://fresh.deno.dev/docs/concepts/islands) and
 deployed close to users on the edge. Sending only what the client needs keeps
 the site lean and fast, earning it a perfect
-[Lighthouse score](https://pagespeed.web.dev/).
+[Lighthouse score](https://pagespeed.web.dev/). You can follow the Fresh
+"Getting Started" guide here: <https://fresh.deno.dev/docs/getting-started>.
