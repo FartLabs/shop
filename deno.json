@@ -5,7 +5,7 @@
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
-    "preview": "deno run -A main.ts",
+    "preview": "deno run -A --env main.ts",
     "update": "deno run -Ar https://fresh.deno.dev/update .",
     "generate": "deno run -Ar https://deno.land/x/generate/cli/main.ts gen.ts"
   },
