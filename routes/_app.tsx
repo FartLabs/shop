@@ -1,4 +1,6 @@
 import { type PageProps } from "$fresh/server.ts";
+import { IS_BROWSER } from "@fresh/core/runtime";
+import { SWRProvider } from "./swr-provider.tsx";
 
 export default function App({ Component }: PageProps) {
   return (
@@ -25,7 +27,13 @@ export default function App({ Component }: PageProps) {
         </script>
       </head>
       <body>
-        <Component />
+        {IS_BROWSER
+          ? (
+            <SWRProvider>
+              <Component />
+            </SWRProvider>
+          )
+          : <Component />}
       </body>
     </html>
   );

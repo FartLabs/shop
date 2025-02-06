@@ -7,6 +7,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_shopify from "./routes/api/shopify.ts";
 import * as $index from "./routes/index.tsx";
 import * as $products_product_ from "./routes/products/[product].tsx";
+import * as $swr_provider from "./routes/swr-provider.tsx";
 import * as $AddToCart from "./islands/AddToCart.tsx";
 import * as $Cart from "./islands/Cart.tsx";
 import * as $ProductDetails from "./islands/ProductDetails.tsx";
@@ -19,6 +20,7 @@ const manifest = {
     "./routes/api/shopify.ts": $api_shopify,
     "./routes/index.tsx": $index,
     "./routes/products/[product].tsx": $products_product_,
+    "./routes/swr-provider.tsx": $swr_provider,
   },
   islands: {
     "./islands/AddToCart.tsx": $AddToCart,
