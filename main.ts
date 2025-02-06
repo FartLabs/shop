@@ -1,13 +1,28 @@
-/// <reference no-default-lib="true" />
-/// <reference lib="dom" />
-/// <reference lib="dom.iterable" />
-/// <reference lib="dom.asynciterable" />
-/// <reference lib="deno.ns" />
+import type { Route } from "@std/http/unstable-route";
+import { route } from "@std/http/unstable-route";
+import { serveDir } from "@std/http";
 
-import { start } from "$fresh/server.ts";
-import manifest from "./fresh.gen.ts";
+const routes: Route[] = [
+  {
+    method: "GET",
+    pattern: new URLPattern({ pathname: "/" }),
+    handler(_request: Request): Response {
+      return new Response("Hello world!");
+    },
+  },
+  {
+    method: "GET",
+    pattern: new URLPattern({ pathname: "/*" }),
+    handler(request: Request): Promise<Response> {
+      return serveDir(request, { fsRoot: "./static" });
+    },
+  },
+];
 
-import twindPlugin from "$fresh/plugins/twind.ts";
-import twindConfig from "./twind.config.ts";
+function defaultHandler(_request: Request): Response {
+  return new Response("Not found", { status: 404 });
+}
 
-await start(manifest, { plugins: [twindPlugin(twindConfig)] });
+export default {
+  fetch: route(routes, defaultHandler),
+} satisfies Deno.ServeDefaultExport;

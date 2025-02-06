@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { addToCart, useCart } from "@/utils/data.ts";
+import { addToCart, useCart } from "../lib/data.ts";
 
 interface AddToCartProps {
   id: string;

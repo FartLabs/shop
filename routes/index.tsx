@@ -1,13 +1,13 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { tw } from "twind";
 import { aspectRatio } from "@twind/aspect-ratio";
-import { formatCurrency } from "@/utils/data.ts";
-import { graphql } from "@/utils/shopify.ts";
+import { formatCurrency } from "../lib/data.ts";
+import { graphql } from "../lib/shopify.ts";
 import { Footer } from "@/components/Footer.tsx";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import { Header } from "@/components/Header.tsx";
 import IconCart from "@/components/IconCart.tsx";
-import { List, Product } from "../utils/types.ts";
+import { List, Product } from "../lib/types.ts";
 
 const q = `{
   products(first: 20) {

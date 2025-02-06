@@ -1,18 +1,14 @@
 {
   "lock": false,
   "tasks": {
+    "start": "deno serve --parallel --allow-read main.ts",
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
-    "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
-    "manifest": "deno task cli manifest $(pwd)",
-    "start": "deno run -A --watch=static/,routes/ dev.ts",
-    "build": "deno run -A dev.ts build",
-    "preview": "deno run -A --env main.ts",
-    "update": "deno run -Ar https://fresh.deno.dev/update .",
-    "generate": "deno run -Ar https://deno.land/x/generate/cli/main.ts gen.ts"
+    "outdated": "deno outdated --update --latest"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
     "@/": "./",
+    "@std/http": "jsr:@std/http@^1.0.13",
     "@twind/aspect-ratio": "https://esm.sh/v98/@twind/aspect-ratio@0.1.4",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "preact": "https://esm.sh/preact@10.22.0",

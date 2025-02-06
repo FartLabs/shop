@@ -3,8 +3,8 @@ import { Footer } from "@/components/Footer.tsx";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import { Header } from "@/components/Header.tsx";
 import ProductDetails from "@/islands/ProductDetails.tsx";
-import { graphql } from "@/utils/shopify.ts";
-import { Product } from "@/utils/types.ts";
+import { graphql } from "../../lib/shopify.ts";
+import { Product } from "../../lib/types.ts";
 
 const q = `query ($product: String!) {
   product(handle: $product) {

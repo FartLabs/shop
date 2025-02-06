@@ -3,8 +3,8 @@ import { tw } from "twind";
 import { css } from "twind/css";
 import { aspectRatio } from "@twind/aspect-ratio";
 import AddToCart from "@/islands/AddToCart.tsx";
-import { formatCurrency } from "@/utils/data.ts";
-import { Product } from "@/utils/types.ts";
+import { formatCurrency } from "../lib/data.ts";
+import { Product } from "../lib/types.ts";
 
 const descriptionStyles = css({
   "a": {
