@@ -1,10 +1,9 @@
 import { useState } from "preact/hooks";
-import { tw } from "twind";
-import { css } from "twind/css";
+import { css, tw } from "@twind/core";
 import { aspectRatio } from "@twind/aspect-ratio";
-import AddToCart from "@/islands/AddToCart.tsx";
-import { formatCurrency } from "../lib/data.ts";
-import { Product } from "../lib/types.ts";
+import AddToCart from "@/components/AddToCart.tsx";
+import { formatCurrency } from "@/lib/data.ts";
+import { Product } from "@/lib/types.ts";
 
 const descriptionStyles = css({
   "a": {
@@ -87,7 +86,7 @@ export default function ProductDetails({ product }: { product: Product }) {
 
           <div class="mt-4 space-y-6">
             <p
-              class={tw`text-base text-gray-600 ${descriptionStyles}`}
+              class={tw(`text-base text-gray-600 ${descriptionStyles}`)}
               dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
             />
           </div>
@@ -96,9 +95,11 @@ export default function ProductDetails({ product }: { product: Product }) {
 
       {/* Product image */}
       <div
-        class={tw`${
-          aspectRatio(1, 1)
-        } w-full bg-white rounded-xl border-2 border-gray-200 mt-12 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-start`}
+        class={tw(
+          `${
+            aspectRatio(1, 1)
+          } w-full bg-white rounded-xl border-2 border-gray-200 mt-12 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-start`,
+        )}
       >
         <div class="rounded-lg overflow-hidden">
           {product.featuredImage && (

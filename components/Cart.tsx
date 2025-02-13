@@ -1,22 +1,18 @@
 import { useRef } from "preact/hooks";
-import { IS_BROWSER } from "$fresh/runtime.ts";
-import { tw } from "twind";
-import { animation, css } from "twind/css";
+import { animation, css, tw } from "@twind/core";
 import IconCart from "@/components/IconCart.tsx";
 import {
   CartData,
   formatCurrency,
   removeFromCart,
   useCart,
-} from "../lib/data.ts";
+} from "@/lib/data.ts";
 
 // Lazy load a <dialog> polyfill.
-// @ts-expect-error HTMLDialogElement is not just a type!
-if (IS_BROWSER && globalThis.HTMLDialogElement === "undefined") {
-  await import(
-    "https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.esm.js"
-  );
-}
+// // @ts-expect-error HTMLDialogElement is not just a type!
+// if (IS_BROWSER && globalThis.HTMLDialogElement === "undefined") {
+//   await import();
+// }
 
 declare global {
   interface HTMLDialogElement {
@@ -28,12 +24,12 @@ declare global {
 const slideRight = animation("0.4s ease normal", {
   from: { transform: "translateX(100%)" },
   to: { transform: "translateX(0)" },
-});
+} as unknown as string);
 
 const slideBottom = animation("0.4s ease normal", {
   from: { transform: "translateY(100%)" },
   to: { transform: "translateY(0)" },
-});
+} as unknown as string);
 
 const backdrop = css({
   "&::backdrop": {
@@ -67,7 +63,9 @@ export default function Cart() {
       </button>
       <dialog
         ref={ref}
-        class={tw`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
+        class={tw(
+          `bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`,
+        )}
         onClick={onDialogClick}
       >
         <CartInner cart={data} />

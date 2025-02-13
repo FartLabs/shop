@@ -1,12 +1,8 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
-import { Footer } from "@/components/Footer.tsx";
-import { HeadElement } from "@/components/HeadElement.tsx";
-import { Header } from "@/components/Header.tsx";
-import ProductDetails from "@/islands/ProductDetails.tsx";
-import { graphql } from "../../lib/shopify.ts";
-import { Product } from "../../lib/types.ts";
+import Layout from "@/routes/layout.tsx";
+import { Product } from "@/lib/types.ts";
+import ProductDetails from "@/components/ProductDetails.tsx";
 
-const q = `query ($product: String!) {
+export const productPageQuery = `query ($product: String!) {
   product(handle: $product) {
     title
     description
@@ -43,37 +39,23 @@ const q = `query ($product: String!) {
   }
 }`;
 
-interface Query {
+export interface ProductPageProps {
+  url: URL;
   product: Product | null;
 }
 
-export const handler: Handlers<Query> = {
-  async GET(_req, ctx) {
-    const data = await graphql<Query>(q, { product: ctx.params.product });
-    if (!data.product) {
-      return new Response("Product not found", { status: 404 });
-    }
-    return ctx.render(data);
-  },
-};
-
-export default function ProductPage(ctx: PageProps<Query>) {
-  const { data, url } = ctx;
-
-  if (!data.product) {
+export default function ProductPage(props: ProductPageProps) {
+  if (!props.product) {
     return <div>Product not found</div>;
   }
 
   return (
-    <>
-      <HeadElement
-        description={data.product.description}
-        image={data.product.featuredImage?.url}
-        title={data.product.title}
-        url={url}
-      />
-
-      <Header />
+    <Layout
+      url={props.url}
+      title={props.product?.title}
+      description={props.product?.description}
+      image={props.product?.featuredImage?.url}
+    >
       <div class="w-11/12 mt-16 max-w-5xl mx-auto flex items-center justify-between relative">
         <a
           href="/"
@@ -94,8 +76,7 @@ export default function ProductPage(ctx: PageProps<Query>) {
           Back to shop
         </a>
       </div>
-      <ProductDetails product={data.product!} />
-      <Footer />
-    </>
+      <ProductDetails product={props.product} />
+    </Layout>
   );
 }

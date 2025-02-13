@@ -1,15 +1,11 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
-import { tw } from "twind";
+import { tw } from "@twind/core";
 import { aspectRatio } from "@twind/aspect-ratio";
 import { formatCurrency } from "../lib/data.ts";
-import { graphql } from "../lib/shopify.ts";
-import { Footer } from "@/components/Footer.tsx";
-import { HeadElement } from "@/components/HeadElement.tsx";
-import { Header } from "@/components/Header.tsx";
 import IconCart from "@/components/IconCart.tsx";
 import { List, Product } from "../lib/types.ts";
+import Layout from "@/routes/layout.tsx";
 
-const q = `{
+export const indexPageQuery = `{
   products(first: 20) {
     nodes {
       id
@@ -33,29 +29,14 @@ const q = `{
   }
 }`;
 
-interface Data {
+export interface IndexPageProps {
+  url: URL;
   products: List<Product>;
 }
 
-export const handler: Handlers<Data> = {
-  async GET(_req, ctx) {
-    const data = await graphql<Data>(q); // { data: { products: { nodes: [] } } }
-    return ctx.render(data);
-  },
-};
-
-export default function Home(ctx: PageProps<Data>) {
-  const { data, url } = ctx;
-  const products = data.products.nodes;
+export function IndexPage(props: IndexPageProps) {
   return (
-    <div>
-      <HeadElement
-        description="Shop at the FartLabs Shop!"
-        image={url.href + "og-image.png"}
-        title="FartLabs Shop"
-        url={url}
-      />
-      <Header />
+    <Layout url={props.url}>
       <div
         class="w-11/12 max-w-5xl mx-auto mt-28"
         aria-labelledby="information-heading"
@@ -64,11 +45,12 @@ export default function Home(ctx: PageProps<Data>) {
           Product List
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:!gap-x-10 sm:!grid-cols-2 lg:!grid-cols-3 lg:!gap-x-12 lg:!gap-y-10">
-          {products.map((product) => <ProductCard product={product} />)}
+          {props.products.nodes.map((product) => (
+            <ProductCard product={product} />
+          ))}
         </div>
       </div>
-      <Footer />
-    </div>
+    </Layout>
   );
 }
 
@@ -77,9 +59,11 @@ function ProductCard(props: { product: Product }) {
   return (
     <a key={product.id} href={`/products/${product.handle}`} class="group">
       <div
-        class={tw`${
-          aspectRatio(1, 1)
-        } w-full bg-white rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-500 relative`}
+        class={tw(
+          `${
+            aspectRatio("1/1")
+          } w-full bg-white rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-500 relative`,
+        )}
       >
         {product.featuredImage && (
           <img

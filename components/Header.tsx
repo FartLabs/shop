@@ -1,4 +1,4 @@
-import Cart from "../islands/Cart.tsx";
+import Cart from "./Cart.tsx";
 
 export function Header() {
   return (

@@ -1,18 +1,19 @@
-import { Head } from "$fresh/runtime.ts";
+import Helmet from "preact-helmet";
 
-export type HeadProps = {
+export interface HeadProps {
   url: URL;
   title: string;
   description: string;
   image?: string;
-};
+}
 
 export function HeadElement({ description, image, title, url }: HeadProps) {
   return (
-    <Head>
+    <Helmet>
       <title>{title}</title>
       <link rel="icon" href="https://fartlabs.org/fl-logo.png" />
       <meta name="description" content={description} />
+      <link rel="stylesheet" href="/app.css" />
 
       {/* Facebook Meta Tags */}
       <meta property="og:url" content={url.href} />
@@ -32,14 +33,38 @@ export function HeadElement({ description, image, title, url }: HeadProps) {
       {/* Google Fonts */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="true"
-      />
-      <link
         href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet"
       />
-    </Head>
+
+      {/* Google Analytics */}
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-RZZ3R5K60G"
+      >
+      </script>
+      <script
+        dangerouslySetInnerHTML={{
+          "__html": `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-RZZ3R5K60G');`,
+        }}
+      >
+      </script>
+
+      {/* Dialog Polyfill */}
+      <script
+        type="module"
+        src="https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.esm.js"
+      >
+      </script>
+      <script
+        nomodule
+        src="https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.js"
+      >
+      </script>
+    </Helmet>
   );
 }
