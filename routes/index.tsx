@@ -1,9 +1,14 @@
 import { tw } from "@twind/core";
 import { aspectRatio } from "@twind/aspect-ratio";
-import { formatCurrency } from "../lib/data.ts";
+import { formatCurrency } from "@/lib/data.ts";
 import IconCart from "@/components/IconCart.tsx";
-import { List, Product } from "../lib/types.ts";
+import { List, Product } from "@/lib/types.ts";
 import Layout from "@/routes/layout.tsx";
+import { graphql } from "@/lib/shopify.ts";
+
+export async function queryIndexPage() {
+  return await graphql<{ products: List<Product> }>(indexPageQuery);
+}
 
 export const indexPageQuery = `{
   products(first: 20) {
@@ -35,6 +40,7 @@ export interface IndexPageProps {
 }
 
 export function IndexPage(props: IndexPageProps) {
+  console.dir({ props }, { depth: null });
   return (
     <Layout url={props.url}>
       <div

@@ -27,5 +27,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "fartlabs-shop"
-          entrypoint: "main.ts"
+          entrypoint: "main.tsx"
           root: "."

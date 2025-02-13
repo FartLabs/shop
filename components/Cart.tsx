@@ -1,5 +1,5 @@
 import { useRef } from "preact/hooks";
-import { animation, css, tw } from "@twind/core";
+import { css, tw } from "@twind/core";
 import IconCart from "@/components/IconCart.tsx";
 import {
   CartData,
@@ -8,12 +8,6 @@ import {
   useCart,
 } from "@/lib/data.ts";
 
-// Lazy load a <dialog> polyfill.
-// // @ts-expect-error HTMLDialogElement is not just a type!
-// if (IS_BROWSER && globalThis.HTMLDialogElement === "undefined") {
-//   await import();
-// }
-
 declare global {
   interface HTMLDialogElement {
     showModal(): void;
@@ -21,15 +15,15 @@ declare global {
   }
 }
 
-const slideRight = animation("0.4s ease normal", {
-  from: { transform: "translateX(100%)" },
-  to: { transform: "translateX(0)" },
-} as unknown as string);
-
-const slideBottom = animation("0.4s ease normal", {
-  from: { transform: "translateY(100%)" },
-  to: { transform: "translateY(0)" },
-} as unknown as string);
+// TODO: Move to app.css.
+// const slideRight = animation("0.4s ease normal", {
+//   from: { transform: "translateX(100%)" },
+//   to: { transform: "translateX(0)" },
+// } as unknown as string);
+// const slideBottom = animation("0.4s ease normal", {
+//   from: { transform: "translateY(100%)" },
+//   to: { transform: "translateY(0)" },
+// } as unknown as string);
 
 const backdrop = css({
   "&::backdrop": {
@@ -38,6 +32,12 @@ const backdrop = css({
 });
 
 export default function Cart() {
+  // TODO: Fix this.
+  // [serve-worker-8 ] Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+  // 1. You might have mismatching versions of React and the renderer (such as React DOM)
+  // 2. You might be breaking the Rules of Hooks
+  // 3. You might have more than one copy of React in the same app
+  // See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem.
   const { data, error } = useCart();
 
   const ref = useRef<HTMLDialogElement | null>(null);
@@ -64,7 +64,7 @@ export default function Cart() {
       <dialog
         ref={ref}
         class={tw(
-          `bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`,
+          `bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full${/* ${slideBottom} sm:${slideRight}*/ " "}${backdrop}`,
         )}
         onClick={onDialogClick}
       >

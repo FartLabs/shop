@@ -1,13 +1,21 @@
 import type { Route } from "@std/http/unstable-route";
 import { route } from "@std/http/unstable-route";
 import { serveDir } from "@std/http";
+import { render } from "preact-render-to-string";
+import { IndexPage, queryIndexPage } from "@/routes/index.tsx";
 
 const routes: Route[] = [
   {
     method: "GET",
     pattern: new URLPattern({ pathname: "/" }),
-    handler(_request: Request): Response {
-      return new Response("Hello world!");
+    async handler(request: Request): Promise<Response> {
+      const data = await queryIndexPage();
+      return new Response(
+        render(
+          <IndexPage url={new URL(request.url)} products={data.products} />,
+        ),
+        { headers: { "Content-Type": "text/html;charset=utf-8" } },
+      );
     },
   },
   {

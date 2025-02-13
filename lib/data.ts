@@ -75,9 +75,9 @@ async function shopifyGraphql<T = any>(
 async function cartFetcher(): Promise<CartData> {
   const id = localStorage.getItem("cartId");
   if (id === null) {
-    const { cartCreate } = await shopifyGraphql<
-      { cartCreate: { cart: CartData } }
-    >(`mutation { cartCreate { cart ${CART_QUERY} } }`);
+    const { cartCreate } = await shopifyGraphql<{
+      cartCreate: { cart: CartData };
+    }>(`mutation { cartCreate { cart ${CART_QUERY} } }`);
     localStorage.setItem("cartId", cartCreate.cart.id);
     return cartCreate.cart;
   }
@@ -98,7 +98,11 @@ async function cartFetcher(): Promise<CartData> {
 }
 
 export function useCart() {
-  return useSWR<CartData, Error>("cart", cartFetcher, {});
+  const { data, error } = useSWR<CartData, Error>("cart", cartFetcher, {
+    suspense: true,
+  });
+  if (error) throw error;
+  return data;
 }
 
 const ADD_TO_CART_QUERY =
