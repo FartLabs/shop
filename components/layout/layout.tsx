@@ -17,6 +17,7 @@ export default function Layout(props: LayoutProps) {
         description={props.description ?? "Shop at the FartLabs Shop!"}
         image={props.image ?? "https://fartlabs.org/og-image.png"}
       />
+      
       <Navbar />
       {props.children}
       <Footer />
