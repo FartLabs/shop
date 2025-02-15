@@ -31,15 +31,12 @@ const backdrop = css({
   },
 });
 
-export default function Cart() {
-  // TODO: Fix this.
-  // [serve-worker-8 ] Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
-  // 1. You might have mismatching versions of React and the renderer (such as React DOM)
-  // 2. You might be breaking the Rules of Hooks
-  // 3. You might have more than one copy of React in the same app
-  // See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem.
-  const { data, error } = useCart();
+export interface CartProps {
+  cart: CartData | undefined;
+  error: Error | undefined;
+}
 
+export default function Cart(props: CartProps) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const onDialogClick = (e: MouseEvent) => {
@@ -48,8 +45,8 @@ export default function Cart() {
     }
   };
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (props.error !== undefined) {
+    return <div>Error: {props.error.message}</div>;
   }
 
   return (
@@ -59,7 +56,7 @@ export default function Cart() {
         class="flex items-center gap-2 items-center border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
       >
         <IconCart />
-        {data?.lines.nodes.length ?? "0"}
+        {props.cart?.lines.nodes.length ?? "0"}
       </button>
       <dialog
         ref={ref}
@@ -68,7 +65,7 @@ export default function Cart() {
         )}
         onClick={onDialogClick}
       >
-        <CartInner cart={data} />
+        <CartInner cart={props.cart} />
       </dialog>
     </div>
   );
@@ -80,14 +77,14 @@ function CartInner(props: { cart: CartData | undefined }) {
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
   const { data: cart } = useCart();
 
-  const checkout = (e: Event) => {
+  const handleCheckoutEvent = (e: Event) => {
     e.preventDefault();
     if (cart) {
       location.href = cart.checkoutUrl;
     }
   };
 
-  const remove = (itemId: string) => {
+  const removeByItemId = (itemId: string) => {
     if (cart) {
       removeFromCart(cart.id, itemId);
     }
@@ -152,7 +149,7 @@ function CartInner(props: { cart: CartData | undefined }) {
                           <button
                             type="button"
                             class="font-medium"
-                            onClick={() => remove(line.id)}
+                            onClick={() => removeByItemId(line.id)}
                           >
                             Remove
                           </button>
@@ -179,7 +176,7 @@ function CartInner(props: { cart: CartData | undefined }) {
               type="button"
               class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
               disabled={props.cart.lines.nodes.length === 0}
-              onClick={checkout}
+              onClick={handleCheckoutEvent}
             >
               Checkout
             </button>
