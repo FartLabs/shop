@@ -1,4 +1,39 @@
-import { Image, Money } from "./types.ts";
+import type { Image, Money } from "./types.ts";
+
+const SHOPIFY_SHOP = Deno.env.get("SHOPIFY_SHOP");
+const SHOPIFY_ACCESS_TOKEN = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
+
+if (SHOPIFY_SHOP === undefined || SHOPIFY_ACCESS_TOKEN === undefined) {
+  throw new Error("env `SHOPIFY_SHOP` and `SHOPIFY_ACCESS_TOKEN` must be set");
+}
+
+export async function graphql<T>(
+  query: string,
+  variables: Record<string, unknown> = {},
+): Promise<T> {
+  const response = await fetch(
+    `https://${SHOPIFY_SHOP}/api/2025-01/graphql.json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": SHOPIFY_ACCESS_TOKEN!,
+      },
+      body: JSON.stringify({ query, variables }),
+    },
+  );
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`${response.status} ${body}`);
+  }
+
+  const json = await response.json();
+  if (json.errors) {
+    throw new Error(json.errors.map((e: Error) => e.message).join("\n"));
+  }
+
+  return json.data as T;
+}
 
 export interface CartData {
   id: string;
@@ -103,12 +138,12 @@ const ADD_TO_CART_QUERY =
   }
 }`;
 
-// export async function addToCart(cartId: string, productId: string) {
-//   const mutation = shopifyGraphql<{ cart: CartData }>(ADD_TO_CART_QUERY, {
-//     cartId,
-//     lines: [{ merchandiseId: productId }],
-//   }).then(({ cart }) => cart);
-// }
+export function addToCart(cartId: string, productId: string) {
+  return shopifyGraphql<{ cart: CartData }>(ADD_TO_CART_QUERY, {
+    cartId,
+    lines: [{ merchandiseId: productId }],
+  }).then(({ cart }) => cart);
+}
 
 const REMOVE_FROM_CART_MUTATION = `
   mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
@@ -118,15 +153,11 @@ const REMOVE_FROM_CART_MUTATION = `
   }
 `;
 
-export async function removeFromCart(cartId: string, lineItemId: string) {
-  const mutation = shopifyGraphql<{ cart: CartData }>(
-    REMOVE_FROM_CART_MUTATION,
-    {
-      cartId,
-      lineIds: [lineItemId],
-    },
-  ).then(({ cart }) => cart);
-  await mutate("cart", mutation);
+export function removeFromCart(cartId: string, lineItemId: string) {
+  return shopifyGraphql<{ cart: CartData }>(REMOVE_FROM_CART_MUTATION, {
+    cartId,
+    lineIds: [lineItemId],
+  }).then(({ cart }) => cart);
 }
 
 export function formatCurrency(amount: Money) {
