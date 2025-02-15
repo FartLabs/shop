@@ -1,4 +1,3 @@
-import useSWR, { mutate } from "swr";
 import { Image, Money } from "./types.ts";
 
 export interface CartData {
@@ -72,7 +71,7 @@ async function shopifyGraphql<T = any>(
   return await res.json();
 }
 
-async function cartFetcher(): Promise<CartData> {
+export async function fetchCart(): Promise<CartData> {
   const id = localStorage.getItem("cartId");
   if (id === null) {
     const { cartCreate } = await shopifyGraphql<{
@@ -91,18 +90,10 @@ async function cartFetcher(): Promise<CartData> {
     // was already part of a completed order. Clear the cart ID and get a new
     // one.
     localStorage.removeItem("cartId");
-    return cartFetcher();
+    return fetchCart();
   }
 
   return cart;
-}
-
-export function useCart() {
-  const { data, error } = useSWR<CartData, Error>("cart", cartFetcher, {
-    suspense: true,
-  });
-  if (error) throw error;
-  return data;
 }
 
 const ADD_TO_CART_QUERY =
@@ -112,13 +103,12 @@ const ADD_TO_CART_QUERY =
   }
 }`;
 
-export async function addToCart(cartId: string, productId: string) {
-  const mutation = shopifyGraphql<{ cart: CartData }>(ADD_TO_CART_QUERY, {
-    cartId,
-    lines: [{ merchandiseId: productId }],
-  }).then(({ cart }) => cart);
-  await mutate("cart", mutation);
-}
+// export async function addToCart(cartId: string, productId: string) {
+//   const mutation = shopifyGraphql<{ cart: CartData }>(ADD_TO_CART_QUERY, {
+//     cartId,
+//     lines: [{ merchandiseId: productId }],
+//   }).then(({ cart }) => cart);
+// }
 
 const REMOVE_FROM_CART_MUTATION = `
   mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
