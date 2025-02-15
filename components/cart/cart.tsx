@@ -48,7 +48,7 @@ export function Cart(props: CartProps) {
     <div>
       <button
         onClick={() => ref.current!.showModal()}
-        class="flex items-center gap-2 items-center border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
+        class="flex items-center gap-2 items-center border-2 border-yellow-800 rounded-full px-5 py-1 font-semibold text-yellow-800 hover:bg-yellow-800 hover:text-white transition-colors duration-300"
       >
         <CartIcon />
         {props.cart?.lines.nodes.length ?? "0"}
@@ -85,7 +85,7 @@ function CartInner(props: { cart: CartData | undefined }) {
   return (
     <div class={card}>
       <div class="flex justify-between">
-        <h2 class="text-lg font-medium text-gray-900">Shopping Cart</h2>
+        <h2 class="text-lg font-medium text-yellow-900">Shopping Cart</h2>
         <button
           class="py-1"
           onClick={(e) => {
@@ -93,7 +93,7 @@ function CartInner(props: { cart: CartData | undefined }) {
           }}
         >
           <svg
-            class="w-6 h-6 fill-current text-gray-600"
+            class="w-6 h-6 fill-current text-yellow-600"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -104,12 +104,12 @@ function CartInner(props: { cart: CartData | undefined }) {
       {props.cart && (
         <div class="flex-grow-1 my-4">
           {props.cart.lines.nodes.length === 0
-            ? <p class="text-gray-700">There are no items in the cart.</p>
+            ? <p class="text-yellow-700">There are no items in the cart.</p>
             : (
-              <ul role="list" class="-my-6 divide-y divide-gray-200">
+              <ul role="list" class="-my-6 divide-y divide-yellow-200">
                 {props.cart.lines.nodes.map((line) => (
                   <li class="flex py-6">
-                    <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-yellow-200">
                       <img
                         src={line.merchandise.image.url}
                         alt={line.merchandise.image.altText ??
@@ -119,13 +119,13 @@ function CartInner(props: { cart: CartData | undefined }) {
                     </div>
                     <div class="ml-4 flex flex-1 flex-col">
                       <div>
-                        <div class="flex justify-between text-base font-medium text-gray-900">
+                        <div class="flex justify-between text-base font-medium text-yellow-900">
                           <h3>{line.merchandise.product.title}</h3>
                           <p class="ml-4">
                             {formatCurrency(line.estimatedCost.totalAmount)}
                           </p>
                         </div>
-                        <p class="mt-1 text-sm text-gray-500">
+                        <p class="mt-1 text-sm text-yellow-500">
                           {line.merchandise.title !==
                               line.merchandise.product.title
                             ? line.merchandise.title
@@ -133,7 +133,7 @@ function CartInner(props: { cart: CartData | undefined }) {
                         </p>
                       </div>
                       <div class="flex flex-1 items-end justify-between text-sm">
-                        <p class="text-gray-500">
+                        <p class="text-yellow-500">
                           Quantity <strong>{line.quantity}</strong>
                         </p>
 
@@ -155,25 +155,25 @@ function CartInner(props: { cart: CartData | undefined }) {
         </div>
       )}
       {props.cart && (
-        <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+        <div class="border-t border-yellow-200 py-6 px-4 sm:px-6">
           <div class="flex justify-between text-lg font-medium">
             <p>Subtotal</p>
             <p>{formatCurrency(props.cart.estimatedCost.totalAmount)}</p>
           </div>
-          <p class="mt-0.5 text-sm text-gray-500">
+          <p class="mt-0.5 text-sm text-yellow-500">
             Shipping and taxes calculated at checkout.
           </p>
           <div class="mt-6">
             <button
               type="button"
-              class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
+              class="w-full bg-yellow-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-yellow-700"
               disabled={props.cart.lines.nodes.length === 0}
               onClick={handleCheckoutEvent}
             >
               Checkout
             </button>
           </div>
-          <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+          <div class="mt-6 flex justify-center text-center text-sm text-yellow-500">
             <p>
               or&nbsp;
               <button

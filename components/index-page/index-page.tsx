@@ -63,7 +63,7 @@ function ProductCard(props: { product: Product }) {
   return (
     <a key={product.id} href={`/products/${product.handle}`} class="group">
       <div
-        class={`w-full bg-white rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-500 relative`}
+        class={`w-full bg-white rounded-xl overflow-hidden border-2 border-yellow-200 transition-all duration-500 relative`}
       >
         {product.featuredImage && (
           <img
@@ -79,11 +79,11 @@ function ProductCard(props: { product: Product }) {
         </div>
       </div>
       <div class="flex items-center justify-between mt-3">
-        <h3 class="text-lg text-gray-800 font-medium relative">
+        <h3 class="text-lg text-yellow-800 font-medium relative">
           {product.title}
-          <span class="bg-gray-800 h-[3px] w-0 group-hover:!w-full absolute bottom-[-2px] left-0 transition-all duration-400" />
+          <span class="bg-yellow-800 h-[3px] w-0 group-hover:!w-full absolute bottom-[-2px] left-0 transition-all duration-400" />
         </h3>
-        <strong class="text-lg font-bold text-gray-800">
+        <strong class="text-lg font-bold text-yellow-800">
           {formatCurrency(product.priceRange.minVariantPrice)}
         </strong>
       </div>

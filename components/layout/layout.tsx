@@ -10,17 +10,17 @@ export interface LayoutProps extends Partial<HeadProps> {
 
 export default function Layout(props: LayoutProps) {
   return (
-    <>
+    <html lang="en">
       <Head
         url={props.url ?? new URL("https://shop.fartlabs.org")}
         title={props.title ?? "FartLabs Shop"}
         description={props.description ?? "Shop at the FartLabs Shop!"}
         image={props.image ?? "https://fartlabs.org/og-image.png"}
       />
-      
+
       <Navbar />
       {props.children}
       <Footer />
-    </>
+    </html>
   );
 }

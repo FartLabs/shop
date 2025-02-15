@@ -8,7 +8,7 @@ export function Footer() {
           class="hover:underline flex gap-2 items-center"
           href="https://github.com/FartLabs/shop"
         >
-          <GitHubIcon class="h-5 w-5 text-gray-500" />
+          <GitHubIcon class="h-5 w-5 text-yellow-500" />
           Source
         </a>
 
@@ -26,7 +26,7 @@ export function Footer() {
           🧪 FartLabs
         </a>
       </span>
-      <span class="text-sm text-gray-400 hidden items-center gap-2 sm:!flex">
+      <span class="text-sm text-yellow-400 hidden items-center gap-2 sm:!flex">
         Powered by
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@ export function Footer() {
           >
           </path>
         </svg>
-        <span class="text-gray-600">
+        <span class="text-yellow-600">
           Shopify
         </span>
       </span>

@@ -1,5 +1,3 @@
-import Helmet from "preact-helmet";
-
 export interface HeadProps {
   url: URL;
   title: string;
@@ -9,7 +7,7 @@ export interface HeadProps {
 
 export function Head({ description, image, title, url }: HeadProps) {
   return (
-    <Helmet>
+    <head>
       <title>{title}</title>
       <link rel="icon" href="https://fartlabs.org/fl-logo.png" />
       <meta name="description" content={description} />
@@ -130,6 +128,13 @@ gtag('config', 'G-RZZ3R5K60G');`,
 
       {/* Tailwind CSS */}
       <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    </Helmet>
+
+      {/* Fart.css */}
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://css.fart.tools/fart.css"
+      />
+    </head>
   );
 }

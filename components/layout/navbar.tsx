@@ -2,14 +2,9 @@ import { Cart } from "@/components/cart/cart.tsx";
 
 export function Navbar() {
   return (
-    <header
-      class="h-[110px] sm:!h-[144px] w-full bg-cover bg-no-repeat relative"
-      style={{
-        backgroundImage: "url(/header_bg.svg)",
-      }}
-    >
+    <header class="w-full bg-no-repeat bg-cover relative">
       <div class="rainfall w-full h-full absolute" />
-      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
+      <nav class="container mx-auto flex items-center justify-between h-24 relative">
         <a href="/">
           <img
             src="http://fartlabs.org/fl-logo.png"
@@ -23,6 +18,7 @@ export function Navbar() {
         >
           <span class="hidden sm:inline">FartLabs</span> Shop
         </h1>
+
         <Cart />
       </nav>
     </header>
