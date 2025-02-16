@@ -5,28 +5,28 @@ export interface HeadProps {
   image?: string;
 }
 
-export function Head({ description, image, title, url }: HeadProps) {
+export function Head(props: HeadProps) {
   return (
     <head>
-      <title>{title}</title>
+      <title>{props.title}</title>
       <link rel="icon" href="https://fartlabs.org/fl-logo.png" />
-      <meta name="description" content={description} />
+      <meta name="description" content={props.description} />
       <link rel="stylesheet" href="/app.css" />
 
       {/* Facebook Meta Tags */}
-      <meta property="og:url" content={url.href} />
+      <meta property="og:url" content={props.url.href} />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      {image && <meta property="og:image" content={image} />}
+      <meta property="og:title" content={props.title} />
+      <meta property="og:description" content={props.description} />
+      {props.image && <meta property="og:image" content={props.image} />}
 
       {/* Twitter Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta property="twitter:domain" content={url.hostname} />
-      <meta property="twitter:url" content={url.href} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      {image && <meta name="twitter:image" content={image} />}
+      <meta property="twitter:domain" content={props.url.hostname} />
+      <meta property="twitter:url" content={props.url.href} />
+      <meta name="twitter:title" content={props.title} />
+      <meta name="twitter:description" content={props.description} />
+      {props.image && <meta name="twitter:image" content={props.image} />}
 
       {/* Google Fonts */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
