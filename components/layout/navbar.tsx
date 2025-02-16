@@ -11,7 +11,8 @@ export function Navbar() {
         position: "relative",
       }}
     >
-      <div
+      {
+        /* <div
         style={{
           position: "absolute",
           top: 0,
@@ -19,8 +20,9 @@ export function Navbar() {
           width: "100%",
           height: "100%",
         }}
-        className="rainfall"
-      />
+        class="rainfall"
+      /> */
+      }
       <nav
         style={{
           display: "flex",

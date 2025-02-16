@@ -29,7 +29,9 @@ export async function graphql<T>(
 
   const json = await response.json();
   if (json.errors) {
-    throw new Error(json.errors.map((e: Error) => e.message).join("\n"));
+    throw new Error(
+      json.errors.map((error: Error) => error.message).join("\n"),
+    );
   }
 
   return json.data as T;
@@ -94,29 +96,30 @@ const CART_QUERY = `{
   }
 }`;
 
-// deno-lint-ignore no-explicit-any
-async function shopifyGraphql<T = any>(
-  query: string,
-  variables?: Record<string, unknown>,
-): Promise<T> {
-  const res = await fetch("/api/shopify", {
-    method: "POST",
-    body: JSON.stringify({ query, variables }),
-  });
-  return await res.json();
-}
+// TODO: Migrate references of shopifyGraphql to client layer.
+// // deno-lint-ignore no-explicit-any
+// async function shopifyGraphql<T = any>(
+//   query: string,
+//   variables?: Record<string, unknown>
+// ): Promise<T> {
+//   const response = await fetch("/api/shopify", {
+//     method: "POST",
+//     body: JSON.stringify({ query, variables }),
+//   });
+
+//   return await response.json();
+// }
 
 export async function fetchCart(): Promise<CartData> {
   const id = localStorage.getItem("cartId");
   if (id === null) {
-    const { cartCreate } = await shopifyGraphql<{
+    const { cartCreate } = await graphql<{
       cartCreate: { cart: CartData };
     }>(`mutation { cartCreate { cart ${CART_QUERY} } }`);
-    localStorage.setItem("cartId", cartCreate.cart.id);
     return cartCreate.cart;
   }
 
-  const { cart } = await shopifyGraphql(
+  const { cart } = await graphql<{ cart: CartData | null }>(
     `query($id: ID!) { cart(id: $id) ${CART_QUERY} }`,
     { id },
   );
@@ -124,7 +127,9 @@ export async function fetchCart(): Promise<CartData> {
     // If there is a cart ID, but the returned cart is null, then the cart
     // was already part of a completed order. Clear the cart ID and get a new
     // one.
-    localStorage.removeItem("cartId");
+    // localStorage.removeItem("cartId");
+
+    // TODO: Delete cart ID from cookie.
     return fetchCart();
   }
 
@@ -139,22 +144,21 @@ const ADD_TO_CART_QUERY =
 }`;
 
 export function addToCart(cartId: string, productId: string) {
-  return shopifyGraphql<{ cart: CartData }>(ADD_TO_CART_QUERY, {
+  return graphql<{ cart: CartData }>(ADD_TO_CART_QUERY, {
     cartId,
     lines: [{ merchandiseId: productId }],
   }).then(({ cart }) => cart);
 }
 
-const REMOVE_FROM_CART_MUTATION = `
-  mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
-    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
-      cart ${CART_QUERY}
-    }
+const REMOVE_FROM_CART_MUTATION =
+  `mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
+  cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+    cart ${CART_QUERY}
   }
-`;
+}`;
 
 export function removeFromCart(cartId: string, lineItemId: string) {
-  return shopifyGraphql<{ cart: CartData }>(REMOVE_FROM_CART_MUTATION, {
+  return graphql<{ cart: CartData }>(REMOVE_FROM_CART_MUTATION, {
     cartId,
     lineIds: [lineItemId],
   }).then(({ cart }) => cart);
