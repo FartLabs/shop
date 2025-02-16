@@ -1,8 +1,31 @@
-body {
-  background: #f9f9f9;
-}
-
 .rainfall {
   background-color: transparent;
   background-image: url("/raindrops-animate.svg");
+}
+
+.shop-title {
+  display: none;
+}
+
+footer {
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer a {
+  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .shop-title {
+    display: inline;
+  }
+
+  /* footer {
+    margin: 1rem auto;
+  } */
 }

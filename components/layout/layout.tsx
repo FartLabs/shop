@@ -20,6 +20,7 @@ export function Layout(props: LayoutProps) {
 
       <Navbar />
       {props.children}
+      <hr />
       <Footer />
     </html>
   );

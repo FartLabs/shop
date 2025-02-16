@@ -12,6 +12,8 @@ export function Head(props: HeadProps) {
       <link rel="icon" href="https://fartlabs.org/fl-logo.png" />
       <meta name="description" content={props.description} />
       <link rel="stylesheet" href="/app.css" />
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       {/* Facebook Meta Tags */}
       <meta property="og:url" content={props.url.href} />
