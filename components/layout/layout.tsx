@@ -8,7 +8,7 @@ export interface LayoutProps extends Partial<HeadProps> {
   children: any;
 }
 
-export default function Layout(props: LayoutProps) {
+export function Layout(props: LayoutProps) {
   return (
     <html lang="en">
       <Head

@@ -2,31 +2,22 @@ import { GitHubIcon } from "./github-icon.tsx";
 
 export function Footer() {
   return (
-    <footer class="w-11/12 max-w-5xl mx-auto mt-24 sm:!mt-28 mb-8 flex items-center justify-between">
-      <span class="flex items-center gap-4">
-        <a
-          class="hover:underline flex gap-2 items-center"
-          href="https://github.com/FartLabs/shop"
-        >
-          <GitHubIcon class="h-5 w-5 text-yellow-500" />
+    <footer>
+      <span>
+        <a href="https://github.com/FartLabs/shop">
+          <GitHubIcon />
           Source
         </a>
 
-        <a
-          class="hover:underline flex gap-2 items-center"
-          href="https://wazoo.tech"
-        >
+        <a href="https://wazoo.tech">
           ⭐ Wazoo
         </a>
 
-        <a
-          class="hover:underline flex gap-2 items-center"
-          href="https://fartlabs.org"
-        >
+        <a href="https://fartlabs.org">
           🧪 FartLabs
         </a>
       </span>
-      <span class="text-sm text-yellow-400 hidden items-center gap-2 sm:!flex">
+      <span>
         Powered by
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +44,7 @@ export function Footer() {
           >
           </path>
         </svg>
-        <span class="text-yellow-600">
+        <span>
           Shopify
         </span>
       </span>
