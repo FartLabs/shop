@@ -57,7 +57,7 @@ const routes: Route[] = [
   },
   {
     method: "GET",
-    pattern: new URLPattern({ pathname: "/cart" }),
+    pattern: new URLPattern({ pathname: "/your-cart" }),
     async handler(request: Request): Promise<Response> {
       const cookies = getCookies(request.headers);
       const cart = await fetchCart(cookies["cartId"] ?? null);

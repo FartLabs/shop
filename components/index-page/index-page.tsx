@@ -1,7 +1,7 @@
 import type { List, Product } from "@/lib/shopify/mod.ts";
 import { formatCurrency, graphql } from "@/lib/shopify/mod.ts";
 import { Layout } from "@/components/layout/layout.tsx";
-import { CartIcon } from "../cart-page/cart-icon.tsx";
+import { CartIcon } from "@/components/cart-page/cart-icon.tsx";
 
 export async function queryIndexPage() {
   return await graphql<{ products: List<Product> }>(indexPageQuery);

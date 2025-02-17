@@ -15,13 +15,11 @@ export function CartPage(props: CartPageProps) {
       title="Cart at FartLabs Shop"
       description="Your shopping cart at FartLabs Shop."
     >
-      {props.error !== undefined
-        ? <div>Error: {props.error.message}</div>
-        : (
-          <div>
-            <CartContent cart={props.cart} />
-          </div>
-        )}
+      <section className="fart-section">
+        {props.error !== undefined
+          ? <div>Error: {props.error.message}</div>
+          : <CartContent cart={props.cart} />}
+      </section>
     </Layout>
   );
 }
@@ -45,17 +43,27 @@ function CartContent(props: { cart: CartData | undefined }) {
               <ul role="list">
                 {props.cart.lines.nodes.map((line) => (
                   <li key={line.id}>
+                    {/* TODO: Share product preview component with index page. */}
                     <div>
                       <img
                         src={line.merchandise.image.url}
                         alt={line.merchandise.image.altText ??
                           line.merchandise.product.title}
+                        width="400"
+                        height="400"
+                        style={{ borderRadius: "0.5rem" }}
                       />
                     </div>
                     <div>
                       <div>
                         <div>
-                          <h3>{line.merchandise.product.title}</h3>
+                          <h3>
+                            <a
+                              href={`/products/${line.merchandise.product.handle}`}
+                            >
+                              {line.merchandise.product.title}
+                            </a>
+                          </h3>
                           <p>
                             {formatCurrency(line.estimatedCost.totalAmount)}
                           </p>
@@ -92,10 +100,11 @@ function CartContent(props: { cart: CartData | undefined }) {
             )}
         </div>
       )}
+
       {props.cart !== undefined && (
         <div>
           <div>
-            <p>Subtotal</p>
+            <h2>Subtotal</h2>
             <p>{formatCurrency(props.cart.estimatedCost.totalAmount)}</p>
           </div>
           <p>Shipping and taxes calculated at checkout.</p>
@@ -112,11 +121,9 @@ function CartContent(props: { cart: CartData | undefined }) {
           <div>
             <p>
               or&nbsp;
-              <form method="GET" action="/continue-shopping">
-                <button type="submit" class="fart-button">
-                  Continue Shopping <span aria-hidden="true">&rarr;</span>
-                </button>
-              </form>
+              <a href="/" class="fart-button">
+                Continue Shopping <span aria-hidden="true">&rarr;</span>
+              </a>
             </p>
           </div>
         </div>

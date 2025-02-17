@@ -1,4 +1,4 @@
-import { CartIcon } from "../cart-page/cart-icon.tsx";
+import { CartIcon } from "@/components/cart-page/cart-icon.tsx";
 
 export function Navbar() {
   return (
@@ -41,7 +41,7 @@ export function Navbar() {
         </h1>
 
         <a
-          href="/cart"
+          href="/your-cart"
           style={{
             display: "flex",
             flexDirection: "column",

@@ -47,6 +47,7 @@ export interface CartData {
       merchandise: {
         product: {
           title: string;
+          handle: string;
         };
         title: string;
         image: Image;
@@ -77,6 +78,7 @@ const CART_QUERY = `{
           }
           product {
             title
+            handle
           }
         }
       }
