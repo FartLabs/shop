@@ -1,4 +1,4 @@
-import { Cart } from "@/components/cart/cart.tsx";
+import { CartIcon } from "../cart-page/cart-icon.tsx";
 
 export function Navbar() {
   return (
@@ -11,18 +11,6 @@ export function Navbar() {
         position: "relative",
       }}
     >
-      {
-        /* <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-        class="rainfall"
-      /> */
-      }
       <nav
         style={{
           display: "flex",
@@ -52,7 +40,20 @@ export function Navbar() {
           Shop
         </h1>
 
-        <Cart />
+        <a
+          href="/cart"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <CartIcon />
+          <span>
+            {0}
+            {/* TODO: Add number of items in cart. */}
+          </span>
+        </a>
       </nav>
     </header>
   );

@@ -12,6 +12,7 @@ import {
   ProductPage,
   queryProductPage,
 } from "@/components/product-page/product-page.tsx";
+import { CartPage } from "@/components/cart-page/cart-page.tsx";
 
 const routes: Route[] = [
   {
@@ -66,8 +67,7 @@ const routes: Route[] = [
       setCookie(headers, { name: "cartId", value: cart.id });
       return new Response(
         render(
-          <></>,
-          // <CartPage cart={cart} />,
+          <CartPage url={new URL(request.url)} cart={cart} />,
         ),
         { headers },
       );

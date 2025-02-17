@@ -1,1 +1,126 @@
-// TODO: Move markup from cart.tsx to this file.
+import type { CartData } from "@/lib/shopify/mod.ts";
+import { formatCurrency } from "@/lib/shopify/mod.ts";
+import { Layout } from "@/components/layout/layout.tsx";
+
+export interface CartPageProps {
+  url: URL;
+  cart?: CartData;
+  error?: Error;
+}
+
+export function CartPage(props: CartPageProps) {
+  return (
+    <Layout
+      url={props.url}
+      title="Cart at FartLabs Shop"
+      description="Your shopping cart at FartLabs Shop."
+    >
+      {props.error !== undefined
+        ? <div>Error: {props.error.message}</div>
+        : (
+          <div>
+            <CartContent cart={props.cart} />
+          </div>
+        )}
+    </Layout>
+  );
+}
+
+function CartContent(props: { cart: CartData | undefined }) {
+  return (
+    <div>
+      <div>
+        <h2>Shopping Cart</h2>
+      </div>
+      {props.cart !== undefined && (
+        <div>
+          {props.cart.lines.nodes.length === 0
+            ? (
+              <p>
+                There are no items in the cart. <br />
+                <a href="/">Go shopping</a> to fill it up.
+              </p>
+            )
+            : (
+              <ul role="list">
+                {props.cart.lines.nodes.map((line) => (
+                  <li key={line.id}>
+                    <div>
+                      <img
+                        src={line.merchandise.image.url}
+                        alt={line.merchandise.image.altText ??
+                          line.merchandise.product.title}
+                      />
+                    </div>
+                    <div>
+                      <div>
+                        <div>
+                          <h3>{line.merchandise.product.title}</h3>
+                          <p>
+                            {formatCurrency(line.estimatedCost.totalAmount)}
+                          </p>
+                        </div>
+                        <p>
+                          {line.merchandise.title !==
+                              line.merchandise.product.title
+                            ? line.merchandise.title
+                            : ""}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          Quantity <strong>{line.quantity}</strong>
+                        </p>
+
+                        <div>
+                          <form method="POST" action="/remove-item">
+                            <input
+                              type="hidden"
+                              name="itemId"
+                              value={line.id}
+                            />
+                            <button type="submit" class="fart-button">
+                              Remove
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+        </div>
+      )}
+      {props.cart !== undefined && (
+        <div>
+          <div>
+            <p>Subtotal</p>
+            <p>{formatCurrency(props.cart.estimatedCost.totalAmount)}</p>
+          </div>
+          <p>Shipping and taxes calculated at checkout.</p>
+          <div>
+            <a
+              href={props.cart.lines.nodes.length === 0
+                ? "#"
+                : props.cart.checkoutUrl}
+              class="fart-button"
+            >
+              Checkout
+            </a>
+          </div>
+          <div>
+            <p>
+              or&nbsp;
+              <form method="GET" action="/continue-shopping">
+                <button type="submit" class="fart-button">
+                  Continue Shopping <span aria-hidden="true">&rarr;</span>
+                </button>
+              </form>
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

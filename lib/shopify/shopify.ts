@@ -10,7 +10,7 @@ if (shopifyShop === undefined || shopifyAccessToken === undefined) {
 
 export async function graphql<T>(
   query: string,
-  variables: Record<string, unknown> = {}
+  variables: Record<string, unknown> = {},
 ): Promise<T> {
   const response = await fetch(
     `https://${shopifyShop}/api/${apiVersion}/graphql.json`,
@@ -21,7 +21,7 @@ export async function graphql<T>(
         "X-Shopify-Storefront-Access-Token": shopifyAccessToken!,
       },
       body: JSON.stringify({ query, variables }),
-    }
+    },
   );
   if (!response.ok) {
     const body = await response.text();
@@ -31,7 +31,7 @@ export async function graphql<T>(
   const json = await response.json();
   if (json.errors) {
     throw new Error(
-      json.errors.map((error: Error) => error.message).join("\n")
+      json.errors.map((error: Error) => error.message).join("\n"),
     );
   }
 
@@ -104,7 +104,7 @@ export async function fetchCart(id: string | null): Promise<CartData> {
 
   const { cart } = await graphql<{ cart: CartData | null }>(
     `query($id: ID!) { cart(id: $id) ${CART_QUERY} }`,
-    { id }
+    { id },
   );
   if (cart === null) {
     // If there is a cart ID, but the returned cart is null, then the cart
@@ -126,7 +126,8 @@ export async function createCart(): Promise<CartData> {
   return cartCreate.cart;
 }
 
-const ADD_TO_CART_QUERY = `mutation add($cartId: ID!, $lines: [CartLineInput!]!) {
+const ADD_TO_CART_QUERY =
+  `mutation add($cartId: ID!, $lines: [CartLineInput!]!) {
   cartLinesAdd(cartId: $cartId, lines: $lines) {
     cart ${CART_QUERY}
   }
@@ -139,7 +140,8 @@ export function addToCart(cartId: string, productId: string) {
   }).then(({ cart }) => cart);
 }
 
-const REMOVE_FROM_CART_MUTATION = `mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
+const REMOVE_FROM_CART_MUTATION =
+  `mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
   cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
     cart ${CART_QUERY}
   }
