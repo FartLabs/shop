@@ -55,6 +55,25 @@ const routes: Route[] = [
     },
   },
   {
+    method: "GET",
+    pattern: new URLPattern({ pathname: "/cart" }),
+    async handler(request: Request): Promise<Response> {
+      const cookies = getCookies(request.headers);
+      const cart = await fetchCart(cookies["cartId"] ?? null);
+      const headers = new Headers({
+        "Content-Type": "text/html;charset=utf-8",
+      });
+      setCookie(headers, { name: "cartId", value: cart.id });
+      return new Response(
+        render(
+          <></>,
+          // <CartPage cart={cart} />,
+        ),
+        { headers },
+      );
+    },
+  },
+  {
     method: "POST",
     pattern: new URLPattern({ pathname: "/add-to-cart" }),
     async handler(request: Request): Promise<Response> {
