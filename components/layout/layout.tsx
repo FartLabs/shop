@@ -4,6 +4,8 @@ import { Navbar } from "./navbar.tsx";
 import { Footer } from "./footer.tsx";
 
 export interface LayoutProps extends Partial<HeadProps> {
+  cartSize: number;
+
   // deno-lint-ignore no-explicit-any
   children: any;
 }
@@ -18,7 +20,7 @@ export function Layout(props: LayoutProps) {
         image={props.image ?? "https://fartlabs.org/og-image.png"}
       />
 
-      <Navbar />
+      <Navbar amount={props.cartSize} />
       {props.children}
       <hr />
       <Footer />

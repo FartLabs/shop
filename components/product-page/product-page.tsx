@@ -54,6 +54,7 @@ export const productPageQuery = `query ($product: String!) {
 
 export interface ProductPageProps {
   url: URL;
+  cartSize: number;
   cartId: string;
   product: Product | null;
 }
@@ -66,6 +67,7 @@ export function ProductPage(props: ProductPageProps) {
   return (
     <Layout
       url={props.url}
+      cartSize={props.cartSize}
       title={props.product?.title}
       description={props.product?.description}
       image={props.product?.featuredImage?.url}

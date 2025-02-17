@@ -4,6 +4,7 @@ import { Layout } from "@/components/layout/layout.tsx";
 
 export interface CartPageProps {
   url: URL;
+  cartSize: number;
   cart?: CartData;
   error?: Error;
 }
@@ -12,6 +13,7 @@ export function CartPage(props: CartPageProps) {
   return (
     <Layout
       url={props.url}
+      cartSize={props.cartSize}
       title="Cart at FartLabs Shop"
       description="Your shopping cart at FartLabs Shop."
     >
@@ -81,7 +83,7 @@ function CartContent(props: { cart: CartData | undefined }) {
                         </p>
 
                         <div>
-                          <form method="POST" action="/remove-item">
+                          <form method="POST" action="/remove">
                             <input
                               type="hidden"
                               name="itemId"

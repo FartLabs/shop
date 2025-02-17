@@ -33,12 +33,13 @@ export const indexPageQuery = `{
 
 export interface IndexPageProps {
   url: URL;
+  cartSize: number;
   products: List<Product>;
 }
 
 export function IndexPage(props: IndexPageProps) {
   return (
-    <Layout url={props.url}>
+    <Layout url={props.url} cartSize={props.cartSize}>
       <section aria-labelledby="information-heading" class="fart-section">
         <h2 id="information-heading">
           Collection

@@ -1,6 +1,10 @@
 import { CartIcon } from "@/components/cart-page/cart-icon.tsx";
 
-export function Navbar() {
+export interface NavbarProps {
+  amount: number;
+}
+
+export function Navbar(props: NavbarProps) {
   return (
     <header
       style={{
@@ -50,8 +54,7 @@ export function Navbar() {
         >
           <CartIcon />
           <span>
-            {0}
-            {/* TODO: Add number of items in cart. */}
+            {props.amount}
           </span>
         </a>
       </nav>
