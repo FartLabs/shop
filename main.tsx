@@ -62,17 +62,9 @@ const routes: Route[] = [
       const cart = await fetchCart(cookies["cartId"] ?? null);
       const formData = await request.formData();
       const productId = formData.get("productId")?.toString();
-      if (productId === undefined) {
-        return new Response("Missing product ID", { status: 401 });
-      }
-
-      // TODO: Handle error.
-      // The system cannot find the file specified. (os error 2): stat 'static\add-to-cart'
-      await addToCart(cart.id, productId);
-      const headers = new Headers({
-        "Content-Type": "text/html;charset=utf-8",
-        Location: request.url,
-      });
+      await addToCart(cart.id, productId!);
+      const referer = request.headers.get("Referer");
+      const headers = new Headers({ Location: referer ?? "/" });
       setCookie(headers, { name: "cartId", value: cart.id });
       return new Response("", { status: 302, headers });
     },
