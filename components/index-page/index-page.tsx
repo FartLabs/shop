@@ -60,6 +60,7 @@ function ProductCard(props: { product: Product }) {
       key={product.id}
       href={`/products/${product.handle}`}
     >
+      {/* TODO: Use tube borders. https://github.com/EthanThatOneKid/border-tube-code-generator */}
       <div
         style={{
           position: "relative",

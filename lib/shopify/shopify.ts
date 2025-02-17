@@ -1,26 +1,27 @@
 import type { Image, Money } from "./types.ts";
 
-const SHOPIFY_SHOP = Deno.env.get("SHOPIFY_SHOP");
-const SHOPIFY_ACCESS_TOKEN = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
+const shopifyShop = Deno.env.get("SHOPIFY_SHOP");
+const shopifyAccessToken = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
+const apiVersion = "2025-01";
 
-if (SHOPIFY_SHOP === undefined || SHOPIFY_ACCESS_TOKEN === undefined) {
+if (shopifyShop === undefined || shopifyAccessToken === undefined) {
   throw new Error("env `SHOPIFY_SHOP` and `SHOPIFY_ACCESS_TOKEN` must be set");
 }
 
 export async function graphql<T>(
   query: string,
-  variables: Record<string, unknown> = {},
+  variables: Record<string, unknown> = {}
 ): Promise<T> {
   const response = await fetch(
-    `https://${SHOPIFY_SHOP}/api/2025-01/graphql.json`,
+    `https://${shopifyShop}/api/${apiVersion}/graphql.json`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": SHOPIFY_ACCESS_TOKEN!,
+        "X-Shopify-Storefront-Access-Token": shopifyAccessToken!,
       },
       body: JSON.stringify({ query, variables }),
-    },
+    }
   );
   if (!response.ok) {
     const body = await response.text();
@@ -30,7 +31,7 @@ export async function graphql<T>(
   const json = await response.json();
   if (json.errors) {
     throw new Error(
-      json.errors.map((error: Error) => error.message).join("\n"),
+      json.errors.map((error: Error) => error.message).join("\n")
     );
   }
 
@@ -96,32 +97,14 @@ const CART_QUERY = `{
   }
 }`;
 
-// TODO: Migrate references of shopifyGraphql to client layer.
-// // deno-lint-ignore no-explicit-any
-// async function shopifyGraphql<T = any>(
-//   query: string,
-//   variables?: Record<string, unknown>
-// ): Promise<T> {
-//   const response = await fetch("/api/shopify", {
-//     method: "POST",
-//     body: JSON.stringify({ query, variables }),
-//   });
-
-//   return await response.json();
-// }
-
-export async function fetchCart(): Promise<CartData> {
-  const id = localStorage.getItem("cartId");
+export async function fetchCart(id: string | null): Promise<CartData> {
   if (id === null) {
-    const { cartCreate } = await graphql<{
-      cartCreate: { cart: CartData };
-    }>(`mutation { cartCreate { cart ${CART_QUERY} } }`);
-    return cartCreate.cart;
+    return await createCart();
   }
 
   const { cart } = await graphql<{ cart: CartData | null }>(
     `query($id: ID!) { cart(id: $id) ${CART_QUERY} }`,
-    { id },
+    { id }
   );
   if (cart === null) {
     // If there is a cart ID, but the returned cart is null, then the cart
@@ -129,15 +112,21 @@ export async function fetchCart(): Promise<CartData> {
     // one.
     // localStorage.removeItem("cartId");
 
-    // TODO: Delete cart ID from cookie.
-    return fetchCart();
+    // TODO: Reset cart ID cookie.
+    return fetchCart(null);
   }
 
   return cart;
 }
 
-const ADD_TO_CART_QUERY =
-  `mutation add($cartId: ID!, $lines: [CartLineInput!]!) {
+export async function createCart(): Promise<CartData> {
+  const { cartCreate } = await graphql<{
+    cartCreate: { cart: CartData };
+  }>(`mutation { cartCreate { cart ${CART_QUERY} } }`);
+  return cartCreate.cart;
+}
+
+const ADD_TO_CART_QUERY = `mutation add($cartId: ID!, $lines: [CartLineInput!]!) {
   cartLinesAdd(cartId: $cartId, lines: $lines) {
     cart ${CART_QUERY}
   }
@@ -150,8 +139,7 @@ export function addToCart(cartId: string, productId: string) {
   }).then(({ cart }) => cart);
 }
 
-const REMOVE_FROM_CART_MUTATION =
-  `mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
+const REMOVE_FROM_CART_MUTATION = `mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
   cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
     cart ${CART_QUERY}
   }

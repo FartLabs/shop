@@ -1,8 +1,9 @@
-import { serveDir } from "@std/http/file-server";
 import type { Route } from "@std/http/unstable-route";
+import { getCookies, setCookie } from "@std/http/cookie";
+import { serveDir } from "@std/http/file-server";
 import { route } from "@std/http/unstable-route";
 import { render } from "preact-render-to-string";
-import { fetchCart } from "@/lib/shopify/mod.ts";
+import { addToCart, fetchCart } from "@/lib/shopify/mod.ts";
 import {
   IndexPage,
   queryIndexPage,
@@ -33,9 +34,14 @@ const routes: Route[] = [
     method: "GET",
     pattern: new URLPattern({ pathname: "/products/:productId" }),
     async handler(request: Request, params): Promise<Response> {
+      const cookies = getCookies(request.headers);
+      const cart = await fetchCart(cookies["cartId"] ?? null);
       const productId = params?.pathname.groups.productId;
       const data = await queryProductPage(productId!);
-      const cart = await fetchCart();
+      const headers = new Headers({
+        "Content-Type": "text/html;charset=utf-8",
+      });
+      setCookie(headers, { name: "cartId", value: cart.id });
       return new Response(
         render(
           <ProductPage
@@ -44,8 +50,31 @@ const routes: Route[] = [
             product={data.product}
           />,
         ),
-        { headers: { "Content-Type": "text/html;charset=utf-8" } },
+        { headers },
       );
+    },
+  },
+  {
+    method: "POST",
+    pattern: new URLPattern({ pathname: "/add-to-cart" }),
+    async handler(request: Request): Promise<Response> {
+      const cookies = getCookies(request.headers);
+      const cart = await fetchCart(cookies["cartId"] ?? null);
+      const formData = await request.formData();
+      const productId = formData.get("productId")?.toString();
+      if (productId === undefined) {
+        return new Response("Missing product ID", { status: 401 });
+      }
+
+      // TODO: Handle error.
+      // The system cannot find the file specified. (os error 2): stat 'static\add-to-cart'
+      await addToCart(cart.id, productId);
+      const headers = new Headers({
+        "Content-Type": "text/html;charset=utf-8",
+        Location: request.url,
+      });
+      setCookie(headers, { name: "cartId", value: cart.id });
+      return new Response("", { status: 302, headers });
     },
   },
   {
