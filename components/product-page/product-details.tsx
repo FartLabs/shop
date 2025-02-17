@@ -22,7 +22,6 @@ export function ProductDetails(props: ProductDetailsProps) {
           >
             <hgroup>
               <h2 style={{ fontWeight: "bold" }}>{props.product.title}</h2>
-
               <h3>{props.product.productType}</h3>
             </hgroup>
             <div

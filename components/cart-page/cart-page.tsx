@@ -20,25 +20,25 @@ export function CartPage(props: CartPageProps) {
       <section className="fart-section">
         {props.error !== undefined
           ? <div>Error: {props.error.message}</div>
-          : <CartContent cart={props.cart} />}
+          : <CartContent cart={props.cart} cartSize={props.cartSize} />}
       </section>
     </Layout>
   );
 }
 
-function CartContent(props: { cart: CartData | undefined }) {
+function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
   return (
     <div>
       <div>
-        <h2>Shopping Cart</h2>
+        <h1>Shopping Cart</h1>
       </div>
       {props.cart !== undefined && (
         <div>
           {props.cart.lines.nodes.length === 0
             ? (
               <p>
-                There are no items in the cart. <br />
-                <a href="/">Go shopping</a> to fill it up.
+                There are no items in the cart. <a href="/">Go shopping</a>{" "}
+                to fill it up.
               </p>
             )
             : (
@@ -111,14 +111,20 @@ function CartContent(props: { cart: CartData | undefined }) {
           </div>
           <p>Shipping and taxes calculated at checkout.</p>
           <div>
-            <a
-              href={props.cart.lines.nodes.length === 0
-                ? "#"
-                : props.cart.checkoutUrl}
-              class="fart-button"
-            >
-              Checkout
-            </a>
+            {props.cart.lines.nodes.length === 0
+              ? (
+                <span class="fart-button fart-button--disabled">
+                  Checkout
+                </span>
+              )
+              : (
+                <a
+                  href={props.cart.checkoutUrl}
+                  class="fart-button"
+                >
+                  Checkout
+                </a>
+              )}
           </div>
           <div>
             <p>

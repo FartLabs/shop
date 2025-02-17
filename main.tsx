@@ -23,88 +23,87 @@ const routes: Route[] = [
   {
     method: "GET",
     pattern: new URLPattern({ pathname: "/" }),
-    handler(request: Request): Promise<Response> {
-      return withShopifyCart(request, async (cart: CartData) => {
-        const data = await queryIndexPage();
-        return renderHTML(
+    async handler(request: Request): Promise<Response> {
+      const cart = await fetchShopifyCartFromCookies(request);
+      const data = await queryIndexPage();
+      return makeShopifyCartResponse(
+        render(
           <IndexPage
             url={new URL(request.url)}
             cartSize={getSizeOf(cart)}
             products={data.products}
           />,
-        );
-      });
+        ),
+        cart.id,
+        { headers: { "Content-Type": "text/html;charset=utf-8" } },
+      );
     },
   },
   {
     method: "GET",
     pattern: new URLPattern({ pathname: "/products/:productId" }),
-    handler(request: Request, params): Promise<Response> {
-      return withShopifyCart(
-        request,
-        async (cart: CartData) => {
-          const productId = params?.pathname.groups.productId;
-          const data = await queryProductPage(productId!);
-          return renderHTML(
-            <ProductPage
-              url={new URL(request.url)}
-              cartSize={getSizeOf(cart)}
-              cartId={cart.id}
-              product={data.product}
-            />,
-          );
-        },
+    async handler(request: Request, params): Promise<Response> {
+      const cart = await fetchShopifyCartFromCookies(request);
+      const productId = params?.pathname.groups.productId;
+      const data = await queryProductPage(productId!);
+      return makeShopifyCartResponse(
+        render(
+          <ProductPage
+            url={new URL(request.url)}
+            cartSize={getSizeOf(cart)}
+            cartId={cart.id}
+            product={data.product}
+          />,
+        ),
+        cart.id,
+        { headers: { "Content-Type": "text/html;charset=utf-8" } },
       );
     },
   },
   {
     method: "GET",
     pattern: new URLPattern({ pathname: "/your-cart" }),
-    handler(request: Request): Promise<Response> {
-      return withShopifyCart(request, (cart: CartData) => {
-        return renderHTML(
+    async handler(request: Request): Promise<Response> {
+      const cart = await fetchShopifyCartFromCookies(request);
+      return makeShopifyCartResponse(
+        render(
           <CartPage
             url={new URL(request.url)}
             cartSize={getSizeOf(cart)}
             cart={cart}
           />,
-        );
-      });
+        ),
+        cart.id,
+        { headers: { "Content-Type": "text/html;charset=utf-8" } },
+      );
     },
   },
   {
     method: "POST",
-    pattern: new URLPattern({ pathname: "/add-to-cart" }),
-    handler(request: Request): Promise<Response> {
-      return withShopifyCart(request, async (cart: CartData) => {
-        const formData = await request.formData();
-        const productId = formData.get("productId")?.toString();
-        await addToCart(cart.id, productId!);
-        return renderHTML(
-          <CartPage
-            url={new URL(request.url)}
-            cartSize={getSizeOf(cart)}
-            cart={cart}
-          />,
-        );
+    pattern: new URLPattern({ pathname: "/add" }),
+    async handler(request: Request): Promise<Response> {
+      const cart = await fetchShopifyCartFromCookies(request);
+      const formData = await request.formData();
+      const productId = formData.get("productId")?.toString();
+      await addToCart(cart.id, productId!);
+      const referer = request.headers.get("Referer");
+      return new Response("", {
+        status: 302,
+        headers: { "Location": referer ?? "/" },
       });
     },
   },
   {
     method: "POST",
     pattern: new URLPattern({ pathname: "/remove" }),
-    handler(request: Request): Promise<Response> {
-      return withShopifyCart(request, async (cart: CartData) => {
-        const formData = await request.formData();
-        const itemId = formData.get("itemId")?.toString();
-        await removeFromCart(cart.id, itemId!);
-        return renderHTML(
-          <CartPage
-            url={new URL(request.url)}
-            cartSize={getSizeOf(cart)}
-            cart={cart}
-          />,
-        );
+    async handler(request: Request): Promise<Response> {
+      const cart = await fetchShopifyCartFromCookies(request);
+      const formData = await request.formData();
+      const itemId = formData.get("itemId")?.toString();
+      await removeFromCart(cart.id, itemId!);
+      return new Response("", {
+        status: 302,
+        headers: { "Location": "/your-cart" },
       });
     },
   },
@@ -125,24 +124,24 @@ export default {
   fetch: route(routes, defaultHandler),
 } satisfies Deno.ServeDefaultExport;
 
-function renderHTML(
-  // deno-lint-ignore no-explicit-any
-  element: any,
-) {
-  return new Response(render(element), {
-    headers: { "Content-Type": "text/html;charset=utf-8" },
-  });
+async function fetchShopifyCartFromCookies(
+  request: Request,
+): Promise<CartData> {
+  const cookies = getCookies(request.headers);
+  return await fetchCart(cookies["cartId"] ?? null);
 }
 
-async function withShopifyCart(
-  request: Request,
-  handler: (cart: CartData) => Response | Promise<Response>,
+/**
+ * makeShopifyCartResponse creates a response with the cart ID as a cookie.
+ */
+function makeShopifyCartResponse(
+  body: BodyInit,
+  cartId: string,
+  options?: RequestInit,
 ) {
-  const cookies = getCookies(request.headers);
-  const cart = await fetchCart(cookies["cartId"] ?? null);
-  const response = await handler(cart);
-  setCookie(response.headers, { name: "cartId", value: cart.id });
-  return response;
+  const headers = new Headers(options?.headers);
+  setCookie(headers, { name: "cartId", value: cartId });
+  return new Response(body, { ...options, headers });
 }
 
 function getSizeOf(cart: CartData): number {
