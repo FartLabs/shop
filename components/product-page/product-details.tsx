@@ -100,16 +100,15 @@ export function ProductDetails(props: ProductDetailsProps) {
 
       {/* Product images */}
       <div>
-        <ul style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+        <ul
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "1rem",
+          }}
+        >
           {props.product.images?.nodes.map((image, index) => (
-            <li
-              key={index}
-              style={{
-                width: "calc(50% - 0.5rem)",
-                borderRadius: "0.5rem",
-                overflow: "hidden",
-              }}
-            >
+            <li key={index}>
               <ProductCardPicture
                 src={image.url}
                 alt={image.altText}

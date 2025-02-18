@@ -6,22 +6,13 @@ export interface NavbarProps {
 
 export function Navbar(props: NavbarProps) {
   return (
-    <header
-      style={{
-        width: "100%",
-        backgroundImage: "none",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        position: "relative",
-      }}
-    >
+    <header>
       <nav
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          height: "6rem",
-          position: "relative",
+          justifyContent: "space-around",
+          margin: "0 auto",
         }}
       >
         <a href="/">
