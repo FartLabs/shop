@@ -38,10 +38,12 @@ export function Navbar(props: NavbarProps) {
             color: "var(--fart-primary)",
           }}
         >
-          <span class="shop-title">
-            FartLabs
-          </span>{" "}
-          Shop
+          <a href="/">
+            <span class="shop-title">
+              FartLabs
+            </span>{" "}
+            Shop
+          </a>
         </h1>
 
         <a

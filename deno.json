@@ -10,7 +10,7 @@
     "@/": "./",
     "@std/http": "jsr:@std/http@^1.0.13",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.3",
-    "preact": "npm:preact@10.25.4",
+    "preact": "npm:preact@10.26.0",
     "@preact/signals": "npm:@preact/signals@2.0.1",
     "@preact/signals-core": "npm:@preact/signals-core@1.8.0",
     "preact-helmet": "npm:preact-helmet@^4.0.0-alpha-3",

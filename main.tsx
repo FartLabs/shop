@@ -145,5 +145,5 @@ function makeShopifyCartResponse(
 }
 
 function getSizeOf(cart: CartData): number {
-  return cart.lines.nodes.length;
+  return cart.lines.nodes.reduce((total, line) => total + line.quantity, 0);
 }

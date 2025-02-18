@@ -37,8 +37,8 @@ function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
           {props.cart.lines.nodes.length === 0
             ? (
               <p>
-                There are no items in the cart. <a href="/">Go shopping</a>{" "}
-                to fill it up.
+                There are no items in the cart.{" "}
+                <a href="/" class="fart-button">Go shopping</a> to fill it up.
               </p>
             )
             : (
@@ -105,17 +105,16 @@ function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
 
       {props.cart !== undefined && (
         <div>
-          <div>
-            <h2>Subtotal</h2>
-            <p>{formatCurrency(props.cart.estimatedCost.totalAmount)}</p>
-          </div>
+          <h2>Subtotal</h2>
+          <p>{formatCurrency(props.cart.estimatedCost.totalAmount)}</p>
           <p>Shipping and taxes calculated at checkout.</p>
-          <div>
+
+          <p>
             {props.cart.lines.nodes.length === 0
               ? (
-                <span class="fart-button fart-button--disabled">
+                <s class="fart-button" style={{ pointerEvents: "none" }}>
                   Checkout
-                </span>
+                </s>
               )
               : (
                 <a
@@ -125,15 +124,14 @@ function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
                   Checkout
                 </a>
               )}
-          </div>
-          <div>
-            <p>
-              or&nbsp;
-              <a href="/" class="fart-button">
-                Continue Shopping <span aria-hidden="true">&rarr;</span>
-              </a>
-            </p>
-          </div>
+          </p>
+
+          <p>
+            or&nbsp;
+            <a href="/" class="fart-button">
+              Continue Shopping <span aria-hidden="true">&rarr;</span>
+            </a>
+          </p>
         </div>
       )}
     </div>
