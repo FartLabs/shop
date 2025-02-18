@@ -1,4 +1,2 @@
 .DS_Store
 .env
-# Fresh build directory
-_fresh/
