@@ -1,7 +1,7 @@
 import { CartIcon } from "@/components/cart-page/cart-icon.tsx";
 
 export interface NavbarProps {
-  amount: number;
+  cartSize: number;
 }
 
 export function Navbar(props: NavbarProps) {
@@ -56,7 +56,7 @@ export function Navbar(props: NavbarProps) {
         >
           <CartIcon />
           <span>
-            {props.amount}
+            {props.cartSize}
           </span>
         </a>
       </nav>

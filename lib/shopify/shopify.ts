@@ -1,3 +1,4 @@
+import { getCookies, setCookie } from "@std/http/cookie";
 import type { Image, Money } from "./types.ts";
 
 const shopifyShop = Deno.env.get("SHOPIFY_SHOP");
@@ -162,4 +163,28 @@ export function formatCurrency(amount: Money) {
     currency: amount.currencyCode,
   });
   return intl.format(amount.amount);
+}
+
+export async function fetchShopifyCartFromCookies(
+  request: Request,
+): Promise<CartData> {
+  const cookies = getCookies(request.headers);
+  return await fetchCart(cookies["cartId"] ?? null);
+}
+
+/**
+ * makeShopifyCartResponse creates a response with the cart ID as a cookie.
+ */
+export function makeShopifyCartResponse(
+  body: BodyInit,
+  cartId: string,
+  options?: RequestInit,
+) {
+  const headers = new Headers(options?.headers);
+  setCookie(headers, { name: "cartId", value: cartId });
+  return new Response(body, { ...options, headers });
+}
+
+export function getSizeOf(cart: CartData): number {
+  return cart.lines.nodes.reduce((total, line) => total + line.quantity, 0);
 }

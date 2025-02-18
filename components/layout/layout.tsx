@@ -20,7 +20,7 @@ export function Layout(props: LayoutProps) {
         image={props.image ?? "https://fartlabs.org/og-image.png"}
       />
 
-      <Navbar amount={props.cartSize} />
+      <Navbar cartSize={props.cartSize} />
       {props.children}
       <hr />
       <Footer />

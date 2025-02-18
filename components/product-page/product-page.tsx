@@ -82,7 +82,12 @@ export function ProductPage(props: ProductPageProps) {
         }}
       >
         <BackToShop />
-        <ProductDetails product={props.product} cartId={props.cartId} />
+        <ProductDetails
+          product={props.product}
+          cartId={props.cartId}
+          cartSize={props.cartSize}
+        />
+
         <BackToShop />
       </section>
     </Layout>

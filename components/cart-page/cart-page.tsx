@@ -1,6 +1,7 @@
 import type { CartData } from "@/lib/shopify/mod.ts";
 import { formatCurrency } from "@/lib/shopify/mod.ts";
 import { Layout } from "@/components/layout/layout.tsx";
+import { ProductCardPicture } from "@/components/product-page/product-card.tsx";
 
 export interface CartPageProps {
   url: URL;
@@ -45,17 +46,10 @@ function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
               <ul role="list">
                 {props.cart.lines.nodes.map((line) => (
                   <li key={line.id}>
-                    {/* TODO: Share product preview component with index page. */}
-                    <div>
-                      <img
-                        src={line.merchandise.image.url}
-                        alt={line.merchandise.image.altText ??
-                          line.merchandise.product.title}
-                        width="400"
-                        height="400"
-                        style={{ borderRadius: "0.5rem" }}
-                      />
-                    </div>
+                    <ProductCardPicture
+                      src={line.merchandise.image.url}
+                      alt={line.merchandise.image.altText}
+                    />
                     <div>
                       <div>
                         <div>
@@ -82,7 +76,7 @@ function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
                           Quantity <strong>{line.quantity}</strong>
                         </p>
 
-                        <div>
+                        <p>
                           <form method="POST" action="/remove">
                             <input
                               type="hidden"
@@ -93,7 +87,7 @@ function CartContent(props: { cart: CartData | undefined; cartSize: number }) {
                               Remove
                             </button>
                           </form>
-                        </div>
+                        </p>
                       </div>
                     </div>
                   </li>

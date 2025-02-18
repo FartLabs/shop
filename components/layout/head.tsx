@@ -1,3 +1,8 @@
+import {
+  borderTubeColors,
+  makeBorderTubeHref,
+} from "@/lib/border-tubes/border-tubes.tsx";
+
 export interface HeadProps {
   url: URL;
   title: string;
@@ -137,6 +142,15 @@ gtag('config', 'G-RZZ3R5K60G');`,
         type="text/css"
         href="https://css.fart.tools/fart.css"
       />
+
+      {/* Border tubes */}
+      {borderTubeColors.map((tubeBorderColor) => (
+        <link
+          key={tubeBorderColor}
+          rel="stylesheet"
+          href={makeBorderTubeHref(tubeBorderColor)}
+        />
+      ))}
     </head>
   );
 }

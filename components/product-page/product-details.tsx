@@ -1,10 +1,13 @@
 import type { Product } from "@/lib/shopify/mod.ts";
 import { formatCurrency } from "@/lib/shopify/mod.ts";
 import { AddToCart } from "./add-to-cart.tsx";
+import { ProductCardPicture } from "./product-card.tsx";
+import { borderTubeColorAt } from "@/lib/border-tubes/border-tubes.tsx";
 
 export interface ProductDetailsProps {
-  cartId: string;
   product: Product;
+  cartId: string;
+  cartSize: number;
 }
 
 export function ProductDetails(props: ProductDetailsProps) {
@@ -55,6 +58,14 @@ export function ProductDetails(props: ProductDetailsProps) {
                   />
                 </p>
               )}
+
+              {props.cartSize > 0 && (
+                <p style={{ marginTop: "1rem", fontSize: "initial" }}>
+                  <a href="/your-cart" class="fart-button">
+                    View Cart
+                  </a>
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -99,17 +110,10 @@ export function ProductDetails(props: ProductDetailsProps) {
                 overflow: "hidden",
               }}
             >
-              <img
+              <ProductCardPicture
                 src={image.url}
                 alt={image.altText}
-                width="400"
-                height="400"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  borderRadius: "0.5rem",
-                }}
+                borderTubeColor={borderTubeColorAt(index)}
               />
             </li>
           ))}

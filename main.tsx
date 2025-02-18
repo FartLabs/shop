@@ -1,12 +1,12 @@
 import type { Route } from "@std/http/unstable-route";
-import { getCookies, setCookie } from "@std/http/cookie";
 import { serveDir } from "@std/http/file-server";
 import { route } from "@std/http/unstable-route";
 import { render } from "preact-render-to-string";
 import {
   addToCart,
-  CartData,
-  fetchCart,
+  fetchShopifyCartFromCookies,
+  getSizeOf,
+  makeShopifyCartResponse,
   removeFromCart,
 } from "@/lib/shopify/mod.ts";
 import {
@@ -123,27 +123,3 @@ function defaultHandler(_request: Request): Response {
 export default {
   fetch: route(routes, defaultHandler),
 } satisfies Deno.ServeDefaultExport;
-
-async function fetchShopifyCartFromCookies(
-  request: Request,
-): Promise<CartData> {
-  const cookies = getCookies(request.headers);
-  return await fetchCart(cookies["cartId"] ?? null);
-}
-
-/**
- * makeShopifyCartResponse creates a response with the cart ID as a cookie.
- */
-function makeShopifyCartResponse(
-  body: BodyInit,
-  cartId: string,
-  options?: RequestInit,
-) {
-  const headers = new Headers(options?.headers);
-  setCookie(headers, { name: "cartId", value: cartId });
-  return new Response(body, { ...options, headers });
-}
-
-function getSizeOf(cart: CartData): number {
-  return cart.lines.nodes.reduce((total, line) => total + line.quantity, 0);
-}
