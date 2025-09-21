@@ -1,8 +1,3 @@
-import {
-  borderTubeColors,
-  makeBorderTubeHref,
-} from "@/lib/border-tubes/border-tubes.tsx";
-
 export interface HeadProps {
   url: URL;
   title: string;
@@ -62,12 +57,12 @@ gtag('config', 'G-RZZ3R5K60G');`,
       {/* Dialog Polyfill */}
       <script
         type="module"
-        src="https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.esm.js"
+        src="https://unpkg.com/dialog-polyfill@0.5.6/dist/dialog-polyfill.esm.js"
       >
       </script>
       <script
         nomodule
-        src="https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.js"
+        src="https://unpkg.com/dialog-polyfill@0.5.6/dist/dialog-polyfill.js"
       >
       </script>
 
@@ -142,15 +137,6 @@ gtag('config', 'G-RZZ3R5K60G');`,
         type="text/css"
         href="https://css.fart.tools/fart.css"
       />
-
-      {/* Border tubes */}
-      {borderTubeColors.map((tubeBorderColor) => (
-        <link
-          key={tubeBorderColor}
-          rel="stylesheet"
-          href={makeBorderTubeHref(tubeBorderColor)}
-        />
-      ))}
     </head>
   );
 }

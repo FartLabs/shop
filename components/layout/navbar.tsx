@@ -17,7 +17,7 @@ export function Navbar(props: NavbarProps) {
       >
         <a href="/">
           <img
-            src="http://fartlabs.org/fl-logo.png"
+            src="https://fartlabs.org/fl-logo.png"
             alt="FartLabs logo"
             style={{ height: "3.5rem", width: "3.5rem", borderRadius: "50%" }}
           />

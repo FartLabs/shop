@@ -1,5 +1,5 @@
 export function makeBorderTubeHref(tubeBorderColor: BorderTubeColor) {
-  return `https://fartlabs.org/tube-${tubeBorderColor}.css`;
+  return `/tube-${tubeBorderColor}.css`;
 }
 
 export type BorderTubeColor = (typeof borderTubeColors)[number];
